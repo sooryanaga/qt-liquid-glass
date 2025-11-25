@@ -31,6 +31,5 @@ target_include_directories(QtLiquidGlass PUBLIC
 
 target_link_libraries(QtLiquidGlass PUBLIC Qt6::Core Qt6::Widgets)
 
-# Example will be added later
-# add_subdirectory(examples/GlassDemo)
+add_subdirectory(examples/GlassDemo)
 
