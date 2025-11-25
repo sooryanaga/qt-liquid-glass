@@ -99,6 +99,11 @@ extern "C" int AddGlassEffectView(void* nativeViewPtr, bool opaque) {
     if (win) {
          [win setOpaque:NO];
          [win setBackgroundColor:[NSColor clearColor]];
+         
+         // Enable full-size content view to allow glass behind titlebar
+         win.styleMask |= NSWindowStyleMaskFullSizeContentView;
+         win.titlebarAppearsTransparent = YES;
+         // win.titleVisibility = NSWindowTitleHidden; // Optional: Hide text, keep buttons
     }
 
     // Remove previous glass and background views (if any)
