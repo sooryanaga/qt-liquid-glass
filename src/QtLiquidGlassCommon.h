@@ -8,9 +8,13 @@
 #ifdef PLATFORM_OSX
     extern "C" {
         int AddGlassEffectView(void* nativeViewPtr, bool opaque);
-        void ConfigureGlassView(int viewId, double cornerRadius, const char* tintHex);
-        void SetGlassViewIntProperty(int viewId, const char* key, long long value);
-        void SetGlassViewStringProperty(int viewId, const char* key, const char* value);
+        void ConfigureGlassView(int viewId, double cornerRadius, double r, double g, double b, double a);
+        
+        void SetGlassViewVariant(int viewId, int variant);
+        void SetGlassViewMaterial(int viewId, int material);
+        void SetGlassViewScrim(int viewId, int scrim);
+        void SetGlassViewSubdued(int viewId, int subdued);
+        
         void RemoveGlassEffectView(int viewId);
     }
 #endif

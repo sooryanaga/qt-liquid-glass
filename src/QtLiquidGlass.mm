@@ -4,27 +4,12 @@
 #import <Foundation/Foundation.h>
 #include <objc/runtime.h>
 #include <objc/message.h>
-#include <string>
-#include <cctype>
 #include <map>
 
 static std::map<int, NSView *> g_glassViews;
 static int g_nextViewId = 0;
 static const void *kGlassEffectKey = &kGlassEffectKey;
 static const void *kBackgroundViewKey = &kBackgroundViewKey;
-
-static NSColor* ColorFromHexNSString(NSString* hex) {
-  // Implementation of hex parsing
-  NSString* cleaned = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-  if ([cleaned hasPrefix:@"#"]) cleaned = [cleaned substringFromIndex:1];
-  if (cleaned.length != 6 && cleaned.length != 8) return nil;
-  unsigned int rgba = 0;
-  [[NSScanner scannerWithString:cleaned] scanHexInt:&rgba];
-  CGFloat r = ((rgba & 0xFF0000) >> 16) / 255.0;
-  CGFloat g = ((rgba & 0x00FF00) >> 8)  / 255.0;
-  CGFloat b =  (rgba & 0x0000FF)        / 255.0;
-  return [NSColor colorWithRed:r green:g blue:b alpha:1.0];
-}
 
 #define RUN_ON_MAIN(block) if ([NSThread isMainThread]) { block(); } else { dispatch_sync(dispatch_get_main_queue(), block); }
 
@@ -34,10 +19,18 @@ extern "C" int AddGlassEffectView(void* nativeViewPtr, bool opaque) {
     NSView *container = reinterpret_cast<NSView *>(nativeViewPtr);
     if (!container) return;
     
+    // Simple child injection (Old Strategy)
     NSView *glass = nil;
     Class glassCls = NSClassFromString(@"NSGlassEffectView");
     if (glassCls) {
         glass = [[glassCls alloc] initWithFrame:container.bounds];
+        if (opaque) {
+             NSBox* bg = [[NSBox alloc] initWithFrame:container.bounds];
+             bg.boxType = NSBoxCustom;
+             bg.fillColor = [NSColor windowBackgroundColor];
+             [container addSubview:bg positioned:NSWindowBelow relativeTo:nil];
+             objc_setAssociatedObject(container, kBackgroundViewKey, bg, OBJC_ASSOCIATION_RETAIN);
+        }
     } else {
         NSVisualEffectView *vis = [[NSVisualEffectView alloc] initWithFrame:container.bounds];
         vis.material = NSVisualEffectMaterialUnderWindowBackground;
@@ -46,38 +39,58 @@ extern "C" int AddGlassEffectView(void* nativeViewPtr, bool opaque) {
     glass.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [container addSubview:glass positioned:NSWindowBelow relativeTo:nil];
     
-    g_glassViews[g_nextViewId] = glass;
-    resultId = g_nextViewId++;
+    objc_setAssociatedObject(container, kGlassEffectKey, glass, OBJC_ASSOCIATION_RETAIN);
+    int id = g_nextViewId++;
+    g_glassViews[id] = glass;
+    resultId = id;
   });
   return resultId;
 }
 
-extern "C" void ConfigureGlassView(int viewId, double cornerRadius, const char* tintHex) {
-    // Configuration logic...
+extern "C" void ConfigureGlassView(int viewId, double cornerRadius, double r, double g, double b, double a) {
+  RUN_ON_MAIN(^{
+    NSView* glass = g_glassViews[viewId];
+    if (!glass) return;
+    glass.wantsLayer = YES;
+    glass.layer.cornerRadius = cornerRadius;
+    
+    NSColor* c = [NSColor colorWithRed:r green:g blue:b alpha:a];
+    if ([glass respondsToSelector:@selector(setTintColor:)]) {
+        [(id)glass setTintColor:c];
+    } else {
+        glass.layer.backgroundColor = c.CGColor;
+    }
+  });
 }
 
-// Helper for dynamic setters
-static SEL ResolveSetter(id obj, const char* cKey) {
-    std::string key(cKey);
-    std::string selName = "set" + key + ":"; // Simplified for brevity in this history step
-    return sel_registerName(selName.c_str());
+extern "C" void SetGlassViewVariant(int viewId, int variant) {
+  RUN_ON_MAIN(^{
+    NSView* glass = g_glassViews[viewId];
+    SEL sel = sel_registerName("set_variant:");
+    if ([glass respondsToSelector:sel]) {
+      ((void (*)(id, SEL, long long))objc_msgSend)(glass, sel, (long long)variant);
+    }
+  });
 }
 
-extern "C" void SetGlassViewIntProperty(int viewId, const char* key, long long value) {
-    RUN_ON_MAIN(^{
-        NSView* glass = g_glassViews[viewId];
-        SEL sel = ResolveSetter(glass, key);
-        if ([glass respondsToSelector:sel]) {
-            ((void (*)(id, SEL, long long))objc_msgSend)(glass, sel, value);
-        }
-    });
+extern "C" void SetGlassViewMaterial(int viewId, int material) {
+  RUN_ON_MAIN(^{
+    NSView* glass = g_glassViews[viewId];
+    if ([glass isKindOfClass:[NSVisualEffectView class]]) {
+        [(NSVisualEffectView*)glass setMaterial:(NSVisualEffectMaterial)material];
+    }
+  });
 }
 
-extern "C" void SetGlassViewStringProperty(int viewId, const char* key, const char* value) {
-    // Implementation...
+extern "C" void SetGlassViewScrim(int viewId, int scrim) {
+    // implementation...
+}
+
+extern "C" void SetGlassViewSubdued(int viewId, int subdued) {
+    // implementation...
 }
 
 extern "C" void RemoveGlassEffectView(int viewId) {
-    // Cleanup...
+    // cleanup...
 }
 #endif
