@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSlider>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QCheckBox>
 #include <QLabel>
 #include <QPushButton>
@@ -34,7 +35,7 @@ private:
     int m_materialIndex = 0;
     QStringList m_materials;
 
-    QLineEdit *codeDisplay;
+    QTextEdit *codeDisplay;
     QPushButton *copyBtn;
 };
 

@@ -151,9 +151,13 @@ void SettingsPage::setupUi() {
     
     QHBoxLayout* codeLayout = new QHBoxLayout();
     
-    codeDisplay = new QLineEdit();
+    codeDisplay = new QTextEdit();
     codeDisplay->setReadOnly(true);
-    codeDisplay->setStyleSheet("QLineEdit { background: rgba(0,0,0,0.3); color: #00E5FF; font-family: \"Menlo\", \"Courier New\", monospace; padding: 5px; border: none; border-radius: 5px; }");
+    codeDisplay->setLineWrapMode(QTextEdit::NoWrap);
+    codeDisplay->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    codeDisplay->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    codeDisplay->setFixedHeight(34); 
+    codeDisplay->setStyleSheet("QTextEdit { background: #1E1E1E; color: #D4D4D4; font-family: \"Menlo\", \"Consolas\", monospace; padding: 5px; border: 1px solid #333; border-radius: 6px; }");
     
     copyBtn = new QPushButton("Copy Config");
     copyBtn->setFixedSize(100, 30); 
@@ -197,10 +201,27 @@ void SettingsPage::updateCodeSnippet() {
     QString matName = m_materials[m_materialIndex];
     QString tint = tintInput->text().isEmpty() ? "\"\"" : "\"" + tintInput->text() + "\"";
     QString radius = QString::number(radiusSlider->value(), 'f', 1);
-    
-    QString oneLiner = QString("addGlassEffect(this, Material::%1, {%2, %3, %4});")
-                        .arg(matName, radius, tint, opaqueCheck->isChecked() ? "true" : "false");
-    codeDisplay->setText(oneLiner);
+    QString opaque = opaqueCheck->isChecked() ? "true" : "false";
+
+    // Syntax Highlighting HTML
+    QString html = QString(
+        "<span style='color:#569CD6'>addGlassEffect</span>"
+        "<span style='color:#D4D4D4'>(</span>"
+        "<span style='color:#569CD6'>this</span>"
+        "<span style='color:#D4D4D4'>, </span>"
+        "<span style='color:#4EC9B0'>Material</span>"
+        "<span style='color:#D4D4D4'>::</span>"
+        "<span style='color:#4EC9B0'>%1</span>"
+        "<span style='color:#D4D4D4'>, {</span>"
+        "<span style='color:#B5CEA8'>%2</span>"
+        "<span style='color:#D4D4D4'>, </span>"
+        "<span style='color:#CE9178'>%3</span>"
+        "<span style='color:#D4D4D4'>, </span>"
+        "<span style='color:#569CD6'>%4</span>"
+        "<span style='color:#D4D4D4'>});</span>"
+    ).arg(matName, radius, tint, opaque);
+
+    codeDisplay->setHtml(html);
 }
 
 void SettingsPage::copyToClipboard() {
