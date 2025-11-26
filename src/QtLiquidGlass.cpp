@@ -36,34 +36,39 @@ int addGlassEffect(QWidget* widget, Material material, const Options& opts) {
         // NSVisualEffectMaterial mappings:
         // Titlebar = 3, Selection = 4, Menu = 5, Popover = 6, Sidebar = 7, HeaderView = 10, Sheet = 11, WindowBackground = 12, HUDWindow = 13, FullScreenUI = 15, ToolTip = 17, ContentBackground = 18, UnderWindowBackground = 21, UnderPageBackground = 22
         
+        
         switch (material) {
             case Material::Sidebar: 
-                variantVal = 0; 
+                variantVal = 16; // 'sidebar'
                 materialVal = 7; // NSVisualEffectMaterialSidebar
                 break;
             case Material::Sheet:   
-                variantVal = 1; 
+                variantVal = 0; // 'regular' (standard sheet look)
                 materialVal = 11; // NSVisualEffectMaterialSheet
                 break;
             case Material::Hud:     
-                variantVal = 2; 
+                variantVal = 2; // 'dock' (dark, satiny)
                 materialVal = 13; // NSVisualEffectMaterialHUDWindow
                 break;
             case Material::WindowBackground: 
-                variantVal = 3; 
+                variantVal = 1; // 'clear' (subtle)
                 materialVal = 12; // NSVisualEffectMaterialWindowBackground
                 break;
             case Material::Popover: 
-                variantVal = 4; 
+                variantVal = 23; // 'cartouchePopover' (modern popover)
                 materialVal = 6; // NSVisualEffectMaterialPopover
                 break;
             case Material::Menu:    
-                variantVal = 5; 
+                variantVal = 9; // 'notificationCenter' (closest to menu)
                 materialVal = 5; // NSVisualEffectMaterialMenu
                 break;
             case Material::FullscreenUI: 
-                variantVal = 6; 
+                variantVal = 6; // 'avplayer' (deep blur)
                 materialVal = 15; // NSVisualEffectMaterialFullScreenUI
+                break;
+            case Material::ControlCenter: 
+                variantVal = 8; // 'controlCenter'
+                materialVal = 5; // Menu is reasonable fallback
                 break;
         }
         

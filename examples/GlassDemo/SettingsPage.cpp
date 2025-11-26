@@ -8,7 +8,7 @@
 #include <QTimer>
 
 SettingsPage::SettingsPage(QWidget *parent) : QWidget(parent) {
-    m_materials = {"Sidebar", "Sheet", "Hud", "WindowBackground", "Popover", "Menu", "FullscreenUI"};
+    m_materials = {"Sidebar", "Sheet", "Hud", "WindowBackground", "Popover", "Menu", "FullscreenUI", "ControlCenter"};
     m_materialIndex = 0;
     
     setupUi();

@@ -13,7 +13,8 @@ enum class Material {
     WindowBackground,
     Popover,
     Menu,
-    FullscreenUI
+    FullscreenUI,
+    ControlCenter
 };
 
 struct Options {
