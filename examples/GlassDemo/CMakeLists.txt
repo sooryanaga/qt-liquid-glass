@@ -12,7 +12,14 @@ add_executable(GlassDemo
     main.cpp
     MainWindow.cpp
     MainWindow.h
+    FadeStack.cpp
+    FadeStack.h
+    PlayerPage.cpp
+    PlayerPage.h
+    SettingsPage.cpp
+    SettingsPage.h
+    PreviewPage.h
+    resources.qrc
 )
 
 target_link_libraries(GlassDemo PRIVATE Qt6::Core Qt6::Widgets QtLiquidGlass)
-

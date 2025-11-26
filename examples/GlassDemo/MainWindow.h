@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSlider>
-#include <QLabel>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QPushButton>
-#include <QComboBox>
+#include <QMouseEvent>
+#include "FadeStack.h"
+#include "PlayerPage.h"
+#include "SettingsPage.h"
+#include "PreviewPage.h"
+#include "QtLiquidGlass/QtLiquidGlass.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -17,32 +17,27 @@ public:
     ~MainWindow();
 
 private slots:
-    void updateGlass();
-    void applyTint();
-    void toggleEffect();
+    void toggleMiniMode(bool mini);
+    void updateGlass(QtLiquidGlass::Options opts, QtLiquidGlass::Material mat);
 
-private:
-    QWidget *sidebar;
-    int glassId = -1;
-
-    QSlider *radiusSlider;
-    QLineEdit *tintInput;
-    QCheckBox *opaqueCheck;
-    QComboBox *materialCombo;
-    
-    // Custom properties
-    QLineEdit *propKeyInput;
-    QLineEdit *propValInput;
-    QPushButton *setIntBtn;
-    QPushButton *setStrBtn;
-
-    void setupUi();
-    
-    // Dragging support
-    QPoint dragPosition;
+protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+
+private:
+    void setupUi();
+    void setupConnections();
+    void animateResize(int w, int h);
+
+    int m_glassId = -1;
+    int lastPageIndex = 0;
+    
+    FadeStack* m_stack;
+    PlayerPage* m_playerPage;
+    SettingsPage* m_settingsPage;
+    PreviewPage* m_previewPage;
+    
+    QPoint m_dragPosition;
 };
 
 #endif // MAINWINDOW_H
-

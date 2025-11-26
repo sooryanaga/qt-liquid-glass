@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/covers">
+    <file alias="daft_punk.jpg">album-covers/Daft Punk, Random Access Memories - 2013 .jpg</file>
+    <file alias="pink_floyd.jpg">album-covers/Pink Floyd, The Dark Side of the Moon - 1973 .jpg</file>
+    <file alias="tame_impala.jpg">album-covers/Tame Impala, Currents - 2015 .jpg</file>
+    <file alias="beatles.jpg">album-covers/The Beatles, Sgt. Pepper's Lonely Hearts Club Band.jpg</file>
+    <file alias="white_stripes.jpg">album-covers/The White Stripes, Elephant - 2003 .jpg</file>
+    <file alias="tyler.jpg">album-covers/Tyler, The Creator, Flower Boy - 2017 .jpg</file>
+</qresource>
+</RCC>
