@@ -18,6 +18,7 @@ add_executable(GlassDemo
     PlayerPage.h
     SettingsPage.cpp
     SettingsPage.h
+    PreviewPage.cpp
     PreviewPage.h
     resources.qrc
 )

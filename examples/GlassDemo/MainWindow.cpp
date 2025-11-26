@@ -35,6 +35,9 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::updateGlass(QtLiquidGlass::Options opts, QtLiquidGlass::Material mat) {
+    m_currentOpts = opts;
+    m_currentMat = mat;
+
     // Demonstration of updating settings at runtime
     if (m_glassId >= 0) {
         // Update parameters like radius, tint, opacity
@@ -88,6 +91,7 @@ void MainWindow::setupConnections() {
     connect(m_playerPage, &PlayerPage::miniModeToggled, this, &MainWindow::toggleMiniMode);
     
     connect(m_playerPage, &PlayerPage::previewClicked, [this]() {
+        m_previewPage->setMaterial(m_currentMat); 
         m_stack->fadeTo(2); 
     });
 
@@ -104,11 +108,17 @@ void MainWindow::setupConnections() {
     connect(m_settingsPage, &SettingsPage::glassSettingsChanged, this, &MainWindow::updateGlass);
     
     connect(m_settingsPage, &SettingsPage::previewMaterial, [this]() {
+        m_previewPage->setMaterial(m_currentMat);
         m_stack->fadeTo(2); 
     });
 
     connect(m_previewPage, &PreviewPage::clicked, [this]() {
         m_stack->fadeTo(lastPageIndex); 
+    });
+    
+    connect(m_previewPage, &PreviewPage::materialChanged, [this](QtLiquidGlass::Material mat) {
+        updateGlass(m_currentOpts, mat);
+        m_settingsPage->setMaterial(mat); 
     });
 }
 

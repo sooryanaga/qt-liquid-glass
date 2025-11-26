@@ -10,7 +10,7 @@ PlayerPage::PlayerPage(QWidget *parent) : QWidget(parent) {
     songs.push_back({"daft_punk.jpg","Get Lucky", "Daft Punk"});
     songs.push_back({"pink_floyd.jpg", "Dark Side of the Moon","Pink Floyd"});
     songs.push_back({"tame_impala.jpg","Currents","Tame Impala"});
-    songs.push_back({"beatles.jpg","Sgt. Pepper","The Beatles"});
+    songs.push_back({"beatles.jpg","Sgt. Pepper's Lonely Hearts Club Band","The Beatles"});
     songs.push_back({"white_stripes.jpg", "Elephant","The White Stripes"});
     songs.push_back({"tyler.jpg","Flower Boy","Tyler, The Creator"});
 

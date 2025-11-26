@@ -38,6 +38,9 @@ private:
     PreviewPage* m_previewPage;
     
     QPoint m_dragPosition;
+    
+    QtLiquidGlass::Options m_currentOpts;
+    QtLiquidGlass::Material m_currentMat = QtLiquidGlass::Material::Sidebar;
 };
 
 #endif // MAINWINDOW_H

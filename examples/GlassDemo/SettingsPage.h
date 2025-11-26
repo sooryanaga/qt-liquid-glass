@@ -14,6 +14,7 @@ class SettingsPage : public QWidget {
     Q_OBJECT
 public:
     explicit SettingsPage(QWidget *parent = nullptr);
+    void setMaterial(QtLiquidGlass::Material mat);
 
 signals:
     void backClicked();

@@ -8,10 +8,18 @@
 #include <QTimer>
 
 SettingsPage::SettingsPage(QWidget *parent) : QWidget(parent) {
-    m_materials = {"Sidebar", "Sheet", "Hud", "WindowBackground", "Popover", "Menu", "FullscreenUI", "ControlCenter"};
+    m_materials = {"Sidebar", "Sheet", "Hud", "WindowBackground", "Popover", "Menu", "FullscreenUI", "ControlCenter", "Widgets", "Inspector", "Titlebar", "Tooltip", "Frosted", "Clear Glass", "Chromatic"};
     m_materialIndex = 0;
     
     setupUi();
+    updateCodeSnippet();
+}
+
+void SettingsPage::setMaterial(QtLiquidGlass::Material mat) {
+    m_materialIndex = static_cast<int>(mat);
+    if (m_materialIndex < 0 || m_materialIndex >= m_materials.size()) m_materialIndex = 0;
+    
+    materialLabel->setText(m_materials[m_materialIndex]);
     updateCodeSnippet();
 }
 
@@ -144,6 +152,10 @@ void SettingsPage::setupUi() {
     groupsLayout->addWidget(propGroup);
     
     mainLayout->addLayout(groupsLayout);
+
+    // ... Explorer ...
+    // QWidget* explorerGroup = createGroup("VARIANT EXPLORER");
+    // ... removed ...
 
     QWidget* codeGroup = createGroup("C++ CONFIGURATION");
     codeGroup->setFixedHeight(80); 

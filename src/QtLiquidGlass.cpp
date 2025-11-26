@@ -70,6 +70,34 @@ int addGlassEffect(QWidget* widget, Material material, const Options& opts) {
                 variantVal = 8; // 'controlCenter'
                 materialVal = 5; // Menu is reasonable fallback
                 break;
+            case Material::Widgets:
+                variantVal = 4; // 'widgets'
+                materialVal = 18; // NSVisualEffectMaterialContentBackground
+                break;
+            case Material::Inspector:
+                variantVal = 18; // 'inspector'
+                materialVal = 7; // Sidebar
+                break;
+            case Material::Titlebar:
+                variantVal = 17; // 'abuttedSidebar' (sidebar meets titlebar)
+                materialVal = 3; // Titlebar
+                break;
+            case Material::Tooltip:
+                variantVal = 20; // 'loupe'
+                materialVal = 17; // ToolTip
+                break;
+            case Material::Frosted:
+                variantVal = 11; // Discovered via explorer
+                materialVal = 1; // Light
+                break;
+            case Material::ClearGlass:
+                variantVal = 13; // Discovered via explorer
+                materialVal = 0; // AppearanceBased
+                break;
+            case Material::Chromatic:
+                variantVal = 19; // Discovered via explorer
+                materialVal = 1; // Light
+                break;
         }
         
         // Send BOTH variant (for private class) and material (for public fallback)

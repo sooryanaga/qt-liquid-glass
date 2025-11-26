@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     opts.opaque = false; // Allow desktop to show through
 
     // Create the effect behind the window
-    // Supported Materials: Sidebar, Sheet, Hud, WindowBackground, Popover, Menu, FullscreenUI, ControlCenter
+    // Supported Materials: Sidebar, Header/Titlebar, Inspector, Widgets, Sheet, Hud, WindowBackground, Popover, Menu, FullscreenUI, ControlCenter, Tooltip
     QtLiquidGlass::addGlassEffect(&window, QtLiquidGlass::Material::Sidebar, opts);
 
     window.resize(600, 400);
@@ -95,12 +95,19 @@ The included example demonstrates how to switch materials and configure properti
 | Enum | Description |
 |------|-------------|
 | `Material::Sidebar` | Thick, vibrant blur (Standard macOS sidebar) |
+| `Material::Titlebar` | "Abutted Sidebar" - blends seamlessy with sidebars |
+| `Material::Inspector` | Sidebar material for detail/inspector panels |
+| `Material::Widgets` | macOS Big Sur+ widget background style |
 | `Material::Sheet` | Lighter blur for modal sheets |
 | `Material::Hud` | Dark, satiny material for HUDs |
 | `Material::Popover` | Standard popover material |
 | `Material::WindowBackground` | Subtle background blur |
 | `Material::FullscreenUI` | Deep blur for fullscreen content |
 | `Material::ControlCenter` | Modern, translucent module background |
+| `Material::Tooltip` | "Loupe" material for hover cards |
+| `Material::Frosted` | Softest, strongest blur, bright diffusion |
+| `Material::ClearGlass` | Almost no blur, crisp transparency with light RGB refraction |
+| `Material::Chromatic` | Frosted look with chromatic aberration blur |
 
 ## 🏗️ How It Works
 

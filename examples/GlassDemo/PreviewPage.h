@@ -3,31 +3,32 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include <QPropertyAnimation>
 #include <QLabel>
+#include <QPushButton>
+#include "QtLiquidGlass/QtLiquidGlass.h"
 
 class PreviewPage : public QWidget {
     Q_OBJECT
 public:
-    explicit PreviewPage(QWidget *parent = nullptr) : QWidget(parent) {
-        m_hint = new QLabel("Click to exit preview", this);
-        m_hint->setStyleSheet("color: rgba(255,255,255,0.3); font-size: 12px;");
-        m_hint->move(20, 20);
-    }
+    explicit PreviewPage(QWidget *parent = nullptr);
+    void setMaterial(QtLiquidGlass::Material mat);
 
 signals:
     void clicked();
+    void materialChanged(QtLiquidGlass::Material mat);
 
 protected:
-    void mousePressEvent(QMouseEvent *event) override {
-        emit clicked();
-        QWidget::mousePressEvent(event);
-    }
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
+    void setupUi();
+    void cycleMaterial(int delta);
+
     QLabel* m_hint;
-    QPropertyAnimation* m_labelFade = nullptr;
+    QLabel* m_materialLabel;
+    
+    int m_materialIndex = 0;
+    QStringList m_materials;
 };
 
 #endif // PREVIEWPAGE_H
-

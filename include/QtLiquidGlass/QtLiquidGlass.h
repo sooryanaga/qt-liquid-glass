@@ -14,7 +14,14 @@ enum class Material {
     Popover,
     Menu,
     FullscreenUI,
-    ControlCenter
+    ControlCenter,
+    Widgets,
+    Inspector,
+    Titlebar,
+    Tooltip,
+    Frosted,
+    ClearGlass,
+    Chromatic
 };
 
 struct Options {
