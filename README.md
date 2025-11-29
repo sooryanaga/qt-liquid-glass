@@ -5,7 +5,7 @@
   
   <br><br>
 
-  **Modern macOS glass effects for Qt6 applications**
+  **Native Liquid Glass effect for macOS Qt6 applications**
   
    Instantiates AppKit’s private `NSGlassEffectView` directly through Objective-C runtime.
 
@@ -14,23 +14,45 @@
 
 ---
 
-## ✨ Features
+## 🧩 Features
 
 -  **Native Glass Effects** - Real `NSGlassEffectView` integration (Private API) with `NSVisualEffectView` fallback.
-- ⚡ **Qt Integration** - Works seamlessly with `QWidget` and `QMainWindow`.
+-  **Qt Integration** - Works seamlessly with `QWidget` and `QMainWindow`.
 -  **Fully Customizable** - Corner radius, tint colors, and glass materials (Sidebar, HUD, Popover, etc.).
 -  **Frameless Ready** - Smart injection strategy handles standard windows AND frameless windows (`Qt::FramelessWindowHint`).
 -  **Auto Appearance** - Respects system light/dark mode.
 
 ## 🚀 Installation
 
-This is a standard CMake library. Clone it into your project or add as a submodule.
+### Option A: Embed (Recommended)
+This is the simplest way to get started. Clone the repository into your project structure.
+
+```bash
+git clone https://github.com/fsalinas26/qt-liquid-glass.git
+```
 
 ```cmake
 # In your CMakeLists.txt
 add_subdirectory(QtLiquidGlass)
 target_link_libraries(YourApp PRIVATE QtLiquidGlass)
 ```
+
+### Option B: System Install (`find_package`)
+If you prefer to install the library system-wide or use it across multiple projects:
+
+1.  **Build and Install:**
+    ```bash
+    git clone https://github.com/fsalinas26/qt-liquid-glass.git
+    cd qt-liquid-glass && mkdir build && cd build
+    cmake ..
+    sudo cmake --install .
+    ```
+
+2.  **Use in your project:**
+    ```cmake
+    find_package(QtLiquidGlass 0.1 REQUIRED)
+    target_link_libraries(YourApp PRIVATE QtLiquidGlass::QtLiquidGlass)
+    ```
 
 ### Requirements
 - **macOS 10.14+**
